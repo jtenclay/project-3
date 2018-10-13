@@ -26,6 +26,24 @@ const actions = {
         reject(err)
       })
     })
+  },
+  login ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      usersApi.login(data).then(response => {
+        console.log(response)
+      }, err => {
+        reject(err)
+      })
+    })
+  },
+  signup ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      usersApi.signup(data).then(response => {
+        console.log(response)
+      }, err => {
+        reject(err)
+      })
+    })
   }
 }
 

@@ -1,13 +1,34 @@
 var db = require('../models')
+var passport = require('../config/passport')
 
-// Routes
-// =============================================================
 module.exports = function (app) {
-  app.get('/api/tags/', function (req, res) {
+  app.get('/api/tags', function (req, res) {
     db.Tag.findAll({})
       .then(function (tags) {
         res.json(tags)
       })
+  })
+
+  app.post('/api/login', passport.authenticate('local'), function (req, res) {
+    res.send('Success')
+  })
+
+  app.post('/api/signup', function (req, res) {
+    db.User.create({
+      email: req.body.email,
+      password: req.body.password
+    }).then(function () {
+      res.redirect(307, '/api/login')
+    }).catch(function (err) {
+      console.log(err)
+      res.json(err)
+      // res.status(422).json(err.errors[0].message);
+    })
+  })
+
+  app.get('/logout', function (req, res) {
+    req.logout()
+    res.redirect('/')
   })
 
   // GET route for getting all of the posts
