@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from .models import Tag, Post
+from .models import Tag, Post, Source, SourceUrl
 from rest_framework import serializers
 
 
@@ -22,4 +22,14 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
-        fields = ('url', 'author', 'title', 'description', 'created_at', 'updated_at', 'published_at', 'tags')
+        fields = ('id', 'url', 'author', 'title', 'description', 'created_at', 'updated_at', 'published_at', 'tags', 'is_private', 'post_source')
+
+class SourceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Source
+        fields = ('source_post', 'source_url')
+
+class SourceUrlSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = SourceUrl
+        fields = ('url', 'image_url', 'title')

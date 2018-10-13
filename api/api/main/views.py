@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from .models import Tag, Post
-from api.main.serializers import UserSerializer, GroupSerializer, TagSerializer, PostSerializer
+from .models import Tag, Post, Source, SourceUrl
+from api.main.serializers import UserSerializer, GroupSerializer, TagSerializer, PostSerializer, SourceSerializer, SourceUrlSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -32,3 +32,18 @@ class PostViewSet(viewsets.ModelViewSet):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+class SourceUrlViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = SourceUrl.objects.all()
+    serializer_class = SourceUrlSerializer
+
+class SourceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Source.objects.all()
+    serializer_class = SourceSerializer
+
