@@ -2,15 +2,15 @@ import axios from './axios'
 
 export default {
   getUsers () {
-    return axios.get('http://localhost:8000/users/')
+    return axios.get('users')
   },
   getUser (id) {
-    return axios.get(`http://localhost:8000/users/${id}`)
+    return axios.get(`users/${id}`)
   },
   login (data) {
-    return axios.post(`http://localhost:8000/login`)
+    return axios.post('login')
   },
   signup (data) {
-    return axios.post(`http://localhost:8000/signup`, data)
+    return axios.post('signup', data)
   }
 }

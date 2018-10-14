@@ -2,11 +2,11 @@
   div
     div Here's the signup page.
     form
-      label Username
+      label Email
         input(
           type="text"
-          name="username"
-          v-model="username")
+          name="email"
+          v-model="email")
       label Password
         input(
           type="password"
@@ -32,7 +32,7 @@ export default {
   name: 'Signup',
   data () {
     return {
-      username: '',
+      email: '',
       password: '',
       firstName: '',
       lastName: ''
@@ -41,7 +41,7 @@ export default {
   methods: {
     submit: function (e) {
       this.$store.dispatch('users/signup', {
-        username: this.username,
+        email: this.email,
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName
