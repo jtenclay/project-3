@@ -23,6 +23,9 @@ module.exports = function (sequelize, DataTypes) {
       }
     })
     Post.hasMany(models.Tag, {})
+    Post.hasMany(models.PostPart, {
+      as: 'parts'
+    })
   }
 
   // Post.belongsTo('Source', { as: 'postSource' })

@@ -19,6 +19,7 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "isPrivate": {
+                    "default": false,
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {
@@ -46,6 +47,51 @@
                         "key": "id"
                     },
                     "onDelete": "cascade",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "PostParts": {
+            "tableName": "PostParts",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "index": {
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "type": {
+                    "defaultValue": {
+                        "value": "heading"
+                    },
+                    "seqType": "Sequelize.ENUM('heading', 'image')"
+                },
+                "imageUrl": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "text": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "PostId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Posts",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -141,5 +187,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 3
 }

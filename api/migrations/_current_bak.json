@@ -120,7 +120,7 @@
                     "allowNull": false,
                     "seqType": "Sequelize.STRING"
                 },
-                "last_login": {
+                "lastLogin": {
                     "seqType": "Sequelize.DATE"
                 },
                 "status": {
@@ -141,5 +141,5 @@
             "indexes": []
         }
     },
-    "revision": 1
+    "revision": 2
 }

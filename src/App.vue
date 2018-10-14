@@ -1,11 +1,18 @@
 <template lang="pug">
   #app
-    #nav
-      router-link(to="/") Home
-      | #{' | '}
-      router-link(to="/about") About
+    Nav
     router-view
 </template>
+
+<script>
+import Nav from '@/components/Nav.vue'
+
+export default {
+  components: {
+    Nav
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

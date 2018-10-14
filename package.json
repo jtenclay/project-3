@@ -6,7 +6,9 @@
     "start": "node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "makemigration": "cd api && node ../node_modules/sequelize-auto-migrations/bin/makemigration",
+    "runmigration": "cd api && node ../node_modules/sequelize-auto-migrations/bin/runmigration"
   },
   "dependencies": {
     "axios": "^0.18.0",

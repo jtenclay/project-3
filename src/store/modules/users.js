@@ -2,7 +2,8 @@ import usersApi from '../../api/users'
 
 // initial state
 const state = {
-  all: []
+  all: [],
+  token: localStorage.getItem('jwt')
 }
 
 // getters
@@ -30,12 +31,16 @@ const actions = {
   login ({ commit }, data) {
     return new Promise((resolve, reject) => {
       usersApi.login(data).then(response => {
-        console.log(response)
+        commit('setToken', response.data.token)
         localStorage.setItem('jwt', response.data.token)
       }, err => {
         reject(err)
       })
     })
+  },
+  logout ({ commit }) {
+    commit('setToken', '')
+    localStorage.setItem('jwt', '')
   },
   signup ({ commit }, data) {
     return new Promise((resolve, reject) => {
@@ -58,6 +63,9 @@ const mutations = {
       ...state.all.filter(({ id }) => id !== user.id),
       user
     ]
+  },
+  setToken (state, token) {
+    state.token = token
   }
 }
 

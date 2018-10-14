@@ -19,11 +19,17 @@
       button(
         type="submit"
         @click.prevent="submit") Submit
+    Editor
 </template>
 
 <script>
+import Editor from '@/components/posts/Editor.vue'
+
 export default {
   name: 'NewPost',
+  components: {
+    Editor
+  },
   data () {
     return {
       title: '',

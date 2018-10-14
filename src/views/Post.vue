@@ -8,8 +8,8 @@
     div(v-else)
       h1 {{ post.title }}
       p {{ post.description }}
-      div(v-if="post.published_at") Published at {{ post.published_at }}
-        span(v-if="post.is_private")  (Private)
+      div(v-if="post.publishedAt") Published at {{ post.published_at }}
+        span(v-if="post.isPrivate")  (Private)
       div(v-else) This post is a draft
 </template>
 

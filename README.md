@@ -2,5 +2,13 @@
 
 ✨
 
-Start Vue with `yarn serve`
-Open SSH tunnel with `openvagrantssh` and then start Express with `yarn start`
+## Vue
+
+* Using Pug and SCSS
+* Start Vue server with `yarn serve`
+
+## Server and database
+
+* Start the server by running `openvagrantssh` (requires config) and then `yarn start` in a new window
+* Create migrations with `yarn makemigration --name <name>` (use `--preview` instead for a dry run)
+* Run migrations with `yarn runmigration`
