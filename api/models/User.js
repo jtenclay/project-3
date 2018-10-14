@@ -1,4 +1,4 @@
-var bcrypt = require("bcrypt-nodejs");
+var bcrypt = require('bcrypt-nodejs')
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
@@ -26,7 +26,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    last_login: {
+    lastLogin: {
       type: DataTypes.DATE
     },
     status: {

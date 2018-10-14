@@ -3,11 +3,11 @@ var path = require('path')
 var Sequelize = require('sequelize')
 var basename = path.basename(module.filename)
 var env = process.env.NODE_ENV || 'development'
-var config = require('../config')[env]
+var config = require('../config/config.json')[env]
 var db = {}
 
 var sequelize = config.use_env_variable
-  ? new Sequelize(process.env[config.use_env_variable])
+  ? new Sequelize(process.env[config.use_env_variable], config)
   : new Sequelize(config.database, config.username, config.password, config)
 
 fs
