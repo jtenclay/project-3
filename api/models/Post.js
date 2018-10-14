@@ -10,7 +10,8 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE
     },
     isPrivate: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      default: false
     }
   })
 

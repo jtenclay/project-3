@@ -1,7 +1,12 @@
-var db = require('../models')
-var passport = require('../config/passport')
+const db = require('../models')
+const passport = require('../config/passport')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = function (app) {
+  require('./posts')(app)
+  require('./users')(app)
+
   app.get('/api/tags', function (req, res) {
     db.Tag.findAll({})
       .then(function (tags) {
@@ -9,8 +14,22 @@ module.exports = function (app) {
       })
   })
 
-  app.post('/api/login', passport.authenticate('local'), function (req, res) {
-    res.send('Success')
+  app.post('/api/login', function (req, res) {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (!user) {
+        return res.sendStatus(401)
+      }
+      if (err) {
+        return res.status(422).json(err.errors[0].message)
+      }
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          res.send(err)
+        }
+        const token = jwt.sign(user.id, process.env.JWT_SECRET)
+        return res.json({ user, token })
+      })
+    })(req, res)
   })
 
   app.post('/api/signup', function (req, res) {
@@ -29,74 +48,4 @@ module.exports = function (app) {
     req.logout()
     res.redirect('/')
   })
-
-  // GET route for getting all of the posts
-  // app.get('/api/posts/', function(req, res) {
-  //   db.Post.findAll({})
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
-
-  // // Get route for returning posts of a specific category
-  // app.get('/api/posts/category/:category', function(req, res) {
-  //   db.Post.findAll({
-  //     where: {
-  //       category: req.params.category
-  //     }
-  //   })
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
-
-  // // Get route for retrieving a single post
-  // app.get('/api/posts/:id', function(req, res) {
-  //   db.Post.findOne({
-  //     where: {
-  //       id: req.params.id
-  //     }
-  //   })
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
-
-  // // POST route for saving a new post
-  // app.post('/api/posts', function(req, res) {
-  //   console.log(req.body)
-  //   db.Post.create({
-  //     title: req.body.title,
-  //     body: req.body.body,
-  //     category: req.body.category
-  //   })
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
-
-  // // DELETE route for deleting posts
-  // app.delete('/api/posts/:id', function(req, res) {
-  //   db.Post.destroy({
-  //     where: {
-  //       id: req.params.id
-  //     }
-  //   })
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
-
-  // // PUT route for updating posts
-  // app.put('/api/posts', function(req, res) {
-  //   db.Post.update(req.body,
-  //     {
-  //       where: {
-  //         id: req.body.id
-  //       }
-  //     })
-  //     .then(function(dbPost) {
-  //       res.json(dbPost)
-  //     })
-  // })
 }

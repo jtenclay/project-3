@@ -26,6 +26,16 @@ const actions = {
         reject(err)
       })
     })
+  },
+  newPost ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      postsApi.newPost(data).then(post => {
+        commit('setPost', post.data)
+        resolve(post)
+      }, err => {
+        reject(err)
+      })
+    })
   }
 }
 

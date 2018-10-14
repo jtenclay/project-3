@@ -2,11 +2,11 @@
   div
     div Here's the login page.
     form
-      label Username
+      label Email
         input(
           type="text"
-          name="username"
-          v-model="username")
+          name="email"
+          v-model="email")
       label Password
         input(
           type="password"
@@ -22,14 +22,14 @@ export default {
   name: 'Login',
   data () {
     return {
-      username: '',
+      email: '',
       password: ''
     }
   },
   methods: {
     submit: function (e) {
       this.$store.dispatch('users/login', {
-        username: this.username,
+        email: this.email,
         password: this.password
       }).then(this.submitOnSuccess).catch(this.submitOnFail)
     },

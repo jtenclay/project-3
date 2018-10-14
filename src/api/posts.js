@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './axios'
 
 export default {
   getPosts () {
@@ -6,5 +6,8 @@ export default {
   },
   getPost (id) {
     return axios.get(`posts/${id}`)
+  },
+  newPost (data) {
+    return axios.post('posts', data)
   }
 }

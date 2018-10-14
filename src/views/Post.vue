@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     div Hey there, you're on the route for user {{ $route.params.user_id }}
-      | and the post {{ $route.params.post_id }}
+      | and the post {{ postId }}
     div(v-if="postDoesNotExist") It looks like this post doesn't exist. 😅
     div(v-else-if="!post") Loading...
     //- else we have our post
@@ -26,13 +26,20 @@ export default {
       postDoesNotExist: false
     }
   },
-  computed: mapState({
-    post (state) {
-      return state.posts.all.find(post => post.id === parseInt(this.$route.params.post_id))
-    }
-  }),
+  computed: {
+    postId: function () {
+      // Grab final segment of the pot
+      const arr = this.$route.params.post_slug.split('-')
+      return arr[arr.length - 1]
+    },
+    ...mapState({
+      post (state) {
+        return state.posts.all.find(post => post.id === parseInt(this.postId))
+      }
+    })
+  },
   created () {
-    this.$store.dispatch('posts/getPost', this.$route.params.post_id).catch(this.getPostOnFail)
+    this.$store.dispatch('posts/getPost', this.postId).catch(this.getPostOnFail)
   },
   methods: {
     getPostOnFail (err) {

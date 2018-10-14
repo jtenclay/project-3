@@ -8,7 +8,7 @@ export default {
     return axios.get(`users/${id}`)
   },
   login (data) {
-    return axios.post('login')
+    return axios.post('login', data)
   },
   signup (data) {
     return axios.post('signup', data)

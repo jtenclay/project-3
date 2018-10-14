@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Profile from './views/Profile.vue'
 import Post from './views/Post.vue'
+import NewPost from './views/NewPost.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 
@@ -18,12 +19,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '/@:user_id',
+      path: '/@:user_handle',
       name: 'Profile',
       component: Profile
     },
     {
-      path: '/@:user_id/:post_id',
+      path: '/@:user_id/new',
+      name: 'NewPost',
+      component: NewPost
+    },
+    {
+      path: '/@:user_id/:post_slug',
       name: 'Post',
       component: Post
     },

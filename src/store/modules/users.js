@@ -31,6 +31,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       usersApi.login(data).then(response => {
         console.log(response)
+        localStorage.setItem('jwt', response.data.token)
       }, err => {
         reject(err)
       })
