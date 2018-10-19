@@ -9,7 +9,7 @@ export default {
   props: {
     imageUrl: {
       type: String,
-      default: ''
+      default: 'https://via.placeholder.com/300x300'
     }
   }
 }

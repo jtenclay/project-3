@@ -22,11 +22,11 @@ import { mapState } from 'vuex'
 export default {
   name: 'Nav',
   computed: mapState({
-    loggedIn: state => !!state.users.token
+    loggedIn: state => !!state.currentUser.token
   }),
   methods: {
     logout: function () {
-      this.$store.dispatch('users/logout')
+      this.$store.dispatch('currentUser/logout')
     }
   }
 }

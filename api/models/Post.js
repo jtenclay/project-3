@@ -11,7 +11,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     isPrivate: {
       type: DataTypes.BOOLEAN,
-      default: false
+      defaultValue: false
     }
   })
 
@@ -22,13 +22,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       }
     })
+    Post.belongsTo(models.Source, {
+      as: 'postSource'
+    })
     Post.hasMany(models.Tag, {})
     Post.hasMany(models.PostPart, {
       as: 'parts'
     })
   }
-
-  // Post.belongsTo('Source', { as: 'postSource' })
 
   return Post
 }

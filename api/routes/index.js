@@ -27,7 +27,15 @@ module.exports = function (app) {
           res.send(err)
         }
         const token = jwt.sign(user.id, process.env.JWT_SECRET)
-        return res.json({ user, token })
+        return res.json({
+          user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username
+          },
+          token
+        })
       })
     })(req, res)
   })

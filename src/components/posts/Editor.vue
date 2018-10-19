@@ -1,5 +1,28 @@
 <template lang="pug">
   .editor here's the editor
+    form
+      label Title
+        input(
+          type="text"
+          name="title"
+          v-model="title")
+      label Source
+        input(
+          type="text"
+          name="source"
+          v-model="source")
+      label Description
+        textarea(
+          name="description"
+          v-model="description")
+      label Is Private?
+        input(
+          type="checkbox"
+          name="isPrivate"
+          v-model="isPrivate")
+      button(
+        type="submit"
+        @click.prevent="submit") Submit
     div(
       class="editor__part"
       v-for="(part, index) in parts") here's a part
@@ -13,15 +36,24 @@
 
 <script>
 import EditorImage from './EditorImage.vue'
-// import { mapState } from 'vuex'
 
 export default {
   name: 'Editor',
   components: {
     EditorImage
   },
+  props: {
+    postId: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
+      title: '',
+      description: '',
+      isPrivate: false,
+      source: '',
       parts: []
     }
   },
@@ -29,11 +61,27 @@ export default {
     addPart: function (type) {
       this.parts.push({
         type,
-        imageUrl: 'https://via.placeholder.com/300x300'
+        imageUrl: type === 'image' ? 'https://via.placeholder.com/300x300' : null
       })
     },
     removePart: function (index) {
       this.parts.splice(index, 1)
+    },
+    submit: function (e) {
+      this.$store.dispatch('posts/updatePost', {
+        id: this.postId,
+        title: this.title,
+        description: this.description,
+        isPrivate: this.isPrivate,
+        parts: this.parts,
+        source: this.source
+      }).then(this.submitOnSuccess).catch(this.submitOnFail)
+    },
+    submitOnSuccess: function () {
+      console.log('successful')
+    },
+    submitOnFail: function (err) {
+      console.log(err)
     }
   }
 }

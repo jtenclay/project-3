@@ -11,25 +11,35 @@
 
 <script>
 import { mapState } from 'vuex'
+import usersApi from '@/api/users'
 
 export default {
   name: 'Profile',
   data () {
     return {
-      loading: true,
-      userDoesNotExist: false
+      userDoesNotExist: false,
+      user: null,
+      posts: [],
+      getPostsErr: null
     }
   },
   computed: mapState({
-    user (state) {
-      return state.users.all.find(user => user.username === this.$route.params.user_handle)
+    currentUser (state) {
+      return state.currentUser
     }
   }),
   created () {
-    this.$store.dispatch('users/getUser', this.$route.params.user_handle).catch(this.getUserOnFail)
+    usersApi.getProfile(this.$route.params.user_handle)
+      .then(this.getProfileOnSuccess)
+      .catch(this.getProfileOnFail)
   },
   methods: {
-    getUserOnFail (err) {
+    getProfileOnSuccess ({ data }) {
+      const { Posts, ...rest } = data
+      this.posts = Posts
+      this.user = rest
+    },
+    getProfileOnFail (err) {
       if (err.response.status === 404) {
         this.userDoesNotExist = true
       }

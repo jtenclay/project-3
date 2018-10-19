@@ -40,6 +40,16 @@
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "postSourceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Sources",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "UserId": {
                     "allowNull": true,
                     "references": {
@@ -98,6 +108,40 @@
             },
             "indexes": []
         },
+        "Sources": {
+            "tableName": "Sources",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "PostId": {
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UrlId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Urls",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "Tags": {
             "tableName": "Tags",
             "schema": {
@@ -129,6 +173,32 @@
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "Urls": {
+            "tableName": "Urls",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "url": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "title": {
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -187,5 +257,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 5
 }

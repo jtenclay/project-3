@@ -28,13 +28,13 @@ export default {
   },
   methods: {
     submit: function (e) {
-      this.$store.dispatch('users/login', {
+      this.$store.dispatch('currentUser/login', {
         email: this.email,
         password: this.password
       }).then(this.submitOnSuccess).catch(this.submitOnFail)
     },
-    submitOnSuccess: function () {
-      console.log('successful')
+    submitOnSuccess: function (data) {
+      this.$router.push(`/@${data.user.username}`)
     },
     submitOnFail: function (err) {
       console.log(err)
