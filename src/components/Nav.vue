@@ -6,7 +6,7 @@
     | #{' | '}
     router-link(to="/@hello/post-1") Post
     | #{' | '}
-    router-link(to="/@hello/edit") New post
+    router-link(to="/new") New post
     | #{' | '}
     button(
       v-if="loggedIn"

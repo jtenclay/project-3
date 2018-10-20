@@ -41,24 +41,18 @@ module.exports = function (app) {
   })
 
   app.post('/api/posts', passport.authenticate('jwt', { session: false }), function (req, res) {
-    let promise
-
-    if (req.body.postSource) {
-      promise = db.Source.create(req.body.postSource)
-    } else {
-      promise = Promise.resolve()
-    }
-
-    promise.then(function (dbSource) {
-      db.Post.create({
-        authorId: req.user.id,
-        postSourceId: dbSource ? dbSource.id : null,
-        ...req.body
-      }).then(function (dbPost) {
-        res.json(dbPost)
-      }).catch(function (err) {
-        res.status(422).json(err.errors ? err.errors[0].message : err)
-      })
+    db.Post.create({
+      authorId: req.user.id,
+      ...req.body
+    }, {
+      include: [{
+        association: 'postSource',
+        include: [db.Url]
+      }]
+    }).then(function (dbPost) {
+      res.json(dbPost)
+    }).catch(function (err) {
+      res.status(422).json(err.errors ? err.errors[0].message : err)
     })
   })
 

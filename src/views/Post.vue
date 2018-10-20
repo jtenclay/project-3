@@ -61,15 +61,18 @@ export default {
   methods: {
     getPostOnSuccess ({ data }) {
       // Create human-readable url
+      console.log(data)
       this.post = data
-      const kebabTitle = dashify(data.title)
+      const kebabTitle = data.title ? dashify(data.title) : ''
       this.$router.replace(`/@${this.$route.params.user_handle}/${kebabTitle ? kebabTitle + '-' : ''}${this.postId}`)
       this.loading = false
     },
     getPostOnFail (err) {
-      if (err.response.status === 404) {
+      if (err.response && err.response.status === 404) {
         this.loading = false
         this.postDoesNotExist = true
+      } else {
+        console.log(err)
       }
     },
     publish () {

@@ -5,16 +5,21 @@
 
 <script>
 import postsApi from '@/api/posts'
+import { mapState } from 'vuex'
 
 export default {
   name: 'NewPost',
+  computed: mapState({
+    username: function (state) {
+      return state.currentUser.username
+    }
+  }),
   created () {
     postsApi.newPost().then(this.newPostOnSuccess).catch(this.newPostOnFail)
   },
   methods: {
-    newPostOnSuccess (post) {
-      console.log('successful', post)
-      this.$router.replace(`/@${this.$route.params.user_handle}/${post.id}/edit`)
+    newPostOnSuccess ({ data }) {
+      this.$router.replace(`/@${this.username}/${data.id}/edit`)
     },
     newPostOnFail (err) {
       if (err.response.status === 401) {
