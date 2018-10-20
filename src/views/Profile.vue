@@ -7,6 +7,8 @@
     div(v-else)
       h1 {{ user.firstName }}
       p {{ user.id }}
+    div(v-if="posts")
+      div(v-for="post in posts") {{post.id}} {{post.title}}
 </template>
 
 <script>

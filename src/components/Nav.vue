@@ -27,6 +27,7 @@ export default {
   methods: {
     logout: function () {
       this.$store.dispatch('currentUser/logout')
+      this.$router.push('/')
     }
   }
 }

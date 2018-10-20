@@ -25,6 +25,8 @@ module.exports = function (app) {
         include: [{
           association: 'author',
           attributes: ['id', 'firstName', 'lastName', 'username']
+        }, {
+          association: 'postSource'
         }]
       }).then(function (dbPost) {
         if (!dbPost) {
@@ -40,12 +42,24 @@ module.exports = function (app) {
   })
 
   app.post('/api/posts', passport.authenticate('jwt', { session: false }), function (req, res) {
-    db.Post.create({
-      authorId: req.user.id
-    }).then(function (dbPost) {
-      res.json(dbPost)
-    }).catch(function (err) {
-      res.status(422).json(err.errors[0].message)
+    let promise
+
+    if (req.body.postSource) {
+      promise = db.Source.create(req.body.postSource)
+    } else {
+      promise = Promise.resolve()
+    }
+
+    promise.then(function (dbSource) {
+      db.Post.create({
+        authorId: req.user.id,
+        postSourceId: dbSource ? dbSource.id : null,
+        ...req.body
+      }).then(function (dbPost) {
+        res.json(dbPost)
+      }).catch(function (err) {
+        res.status(422).json(err.errors ? err.errors[0].message : err)
+      })
     })
   })
 
