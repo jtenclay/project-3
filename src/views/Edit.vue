@@ -6,6 +6,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import postsApi from '@/api/posts'
 import Editor from '@/components/posts/Editor.vue'
 
 export default {
@@ -38,9 +39,9 @@ export default {
   }),
   created () {
     if (!this.$route.params.post_slug) {
-      this.$store.dispatch('posts/newPost').then(this.newPostOnSuccess).catch(this.newPostOnFail)
+      postsApi.newPost().then(this.newPostOnSuccess).catch(this.newPostOnFail)
     } else {
-      this.$store.dispatch('posts/getPost', this.postId).catch(this.getPostOnFail)
+      postsApi.getPost(this.postId).catch(this.getPostOnFail)
     }
   },
   methods: {

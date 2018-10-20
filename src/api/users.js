@@ -15,5 +15,8 @@ export default {
   },
   signup (data) {
     return axios.post('signup', data)
+  },
+  rehydrate () {
+    return axios.get('me')
   }
 }

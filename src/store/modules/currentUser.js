@@ -37,6 +37,17 @@ const actions = {
         reject(err)
       })
     })
+  },
+  rehydrate ({ commit }) {
+    return new Promise((resolve, reject) => {
+      usersApi.rehydrate().then(({ data }) => {
+        commit('setCurrentUser', { ...data.user, token: data.token })
+        localStorage.setItem('jwt', data.token)
+        resolve(data)
+      }, err => {
+        reject(err)
+      })
+    })
   }
 }
 

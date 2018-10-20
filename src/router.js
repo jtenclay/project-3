@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Profile from './views/Profile.vue'
 import Post from './views/Post.vue'
 import Edit from './views/Edit.vue'
+import NewPost from './views/NewPost.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 
@@ -19,12 +20,17 @@ export default new Router({
       component: Home
     },
     {
+      path: '/new',
+      name: 'NewPost',
+      component: NewPost
+    },
+    {
       path: '/@:user_handle',
       name: 'Profile',
       component: Profile
     },
     {
-      path: '/@:user_handle/edit/:post_slug?',
+      path: '/@:user_handle/:post_slug/edit',
       name: 'Edit',
       component: Edit
     },

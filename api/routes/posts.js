@@ -12,7 +12,6 @@ module.exports = function (app) {
   })
 
   app.get('/api/posts/:id', function (req, res, next) {
-    // TO DO: MOVE PASSPORT INSIDE SO IT CAN FUNCTION BOTH WAYS
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
         console.log(err)
@@ -64,7 +63,7 @@ module.exports = function (app) {
   })
 
   // DELETE route for deleting posts
-  app.delete('/api/posts/:id', function (req, res) {
+  app.delete('/api/posts/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
     db.Post.destroy({
       where: {
         id: req.params.id

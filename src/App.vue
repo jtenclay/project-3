@@ -1,5 +1,6 @@
 <template lang="pug">
-  #app
+  #app(v-if="!rehydrated") Loading...
+  #app(v-else)
     Nav
     router-view
 </template>
@@ -10,6 +11,21 @@ import Nav from '@/components/Nav.vue'
 export default {
   components: {
     Nav
+  },
+  data () {
+    return {
+      rehydrated: false
+    }
+  },
+  created () {
+    this.$store.dispatch('currentUser/rehydrate')
+      .then(this.rehydrateOnComplete)
+      .catch(this.rehydrateOnComplete)
+  },
+  methods: {
+    rehydrateOnComplete () {
+      this.rehydrated = true
+    }
   }
 }
 </script>

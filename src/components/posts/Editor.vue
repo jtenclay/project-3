@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import postsApi from '@/api/posts'
 import EditorImage from './EditorImage.vue'
 
 export default {
@@ -68,7 +69,7 @@ export default {
       this.parts.splice(index, 1)
     },
     submit: function (e) {
-      this.$store.dispatch('posts/updatePost', {
+      postsApi.updatePost({
         id: this.postId,
         title: this.title,
         description: this.description,
