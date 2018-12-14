@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     div Here's the signup page.
-    form
+    Form
       label Username
         input(
           type="text"
@@ -30,11 +30,18 @@
       button(
         type="submit"
         @click.prevent="submit") Sign up
+    router-link(
+      to="/login") Log In
 </template>
 
 <script>
+import Form from '@/components/common/Form.vue'
+
 export default {
   name: 'Signup',
+  components: {
+    Form
+  },
   data () {
     return {
       username: '',

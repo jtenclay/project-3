@@ -44,18 +44,18 @@ export default {
     EditorImage
   },
   props: {
-    postId: {
-      type: String,
+    post: {
+      type: Object,
       default: null
     }
   },
   data () {
     return {
-      title: '',
-      description: '',
-      isPrivate: false,
-      source: '',
-      parts: []
+      title: this.post.title || '',
+      description: this.post.description || '',
+      isPrivate: this.post.isPrivate || false,
+      source: this.post.source || '',
+      parts: this.post.parts || []
     }
   },
   methods: {
@@ -69,8 +69,8 @@ export default {
       this.parts.splice(index, 1)
     },
     submit: function (e) {
-      postsApi.updatePost({
-        id: this.postId,
+      postsApi.updatePost(this.post.id, {
+        id: this.post.id,
         title: this.title,
         description: this.description,
         isPrivate: this.isPrivate,
@@ -88,7 +88,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .editor {
   &__part {

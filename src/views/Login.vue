@@ -1,10 +1,10 @@
 <template lang="pug">
   div
     div Here's the login page.
-    form
+    Form
       label Email
         input(
-          type="text"
+          type="email"
           name="email"
           v-model="email")
       label Password
@@ -15,11 +15,18 @@
       button(
         type="submit"
         @click.prevent="submit") Log In
+    router-link(
+      to="/sign-up") Sign Up
 </template>
 
 <script>
+import Form from '@/components/common/Form.vue'
+
 export default {
   name: 'Login',
+  components: {
+    Form
+  },
   data () {
     return {
       email: '',

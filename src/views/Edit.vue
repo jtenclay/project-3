@@ -1,11 +1,12 @@
 <template lang="pug">
   div
     div Here's the new post page.
-    Editor(:postId="postId")
+    Editor(
+      v-if="post"
+      :post="post")
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import postsApi from '@/api/posts'
 import Editor from '@/components/posts/Editor.vue'
 
@@ -19,10 +20,11 @@ export default {
       title: '',
       description: '',
       isPrivate: false,
-      postDoesNotExist: false
+      postDoesNotExist: false,
+      post: null
     }
   },
-  computed: mapState({
+  computed: {
     postId: function () {
       if (!this.$route.params.post_slug) {
         return null
@@ -30,18 +32,13 @@ export default {
       // Grab final segment of the url
       const arr = this.$route.params.post_slug.split('-')
       return arr[arr.length - 1]
-    },
-    ...mapState({
-      post (state) {
-        return state.posts.all.find(post => post.id === parseInt(this.postId))
-      }
-    })
-  }),
+    }
+  },
   created () {
     if (!this.$route.params.post_slug) {
       postsApi.newPost().then(this.newPostOnSuccess).catch(this.newPostOnFail)
     } else {
-      postsApi.getPost(this.postId).catch(this.getPostOnFail)
+      postsApi.getPost(this.postId).then(this.getPostOnSuccess).catch(this.getPostOnFail)
     }
   },
   methods: {
@@ -51,6 +48,11 @@ export default {
     },
     newPostOnFail (err) {
       console.log(err)
+    },
+    getPostOnSuccess ({ data }) {
+      console.log('hello')
+      console.log(data)
+      this.post = data
     },
     getPostOnFail (err) {
       if (err.response.status === 404) {

@@ -8,11 +8,14 @@
     div(v-else)
       h1 {{ post.title }}
       p {{ post.description }}
-      div(v-if="post.publishedAt") Published at {{ post.published_at }}
+      div(v-if="post.publishedAt") Published at {{ formattedDate }}
         span(v-if="post.isPrivate")  (Private)
       div(v-else) This post is a draft
       div(v-if="canEdit")
-        button(@click="publish") Publish this post!
+        router-link(:to="editUrl") Edit this post
+        button(
+          v-if="!post.publishedAt"
+          @click="publish") Publish this post!
 </template>
 
 <script>
@@ -30,10 +33,16 @@ export default {
     }
   },
   computed: {
+    editUrl: function () {
+      return `/@${this.$route.params.user_handle}/${this.postId}/edit`
+    },
     postId: function () {
       // Grab final segment of the url
       const arr = this.$route.params.post_slug.split('-')
       return arr[arr.length - 1]
+    },
+    formattedDate: function () {
+      return new Date(this.post.publishedAt).toLocaleString()
     },
     ...mapState({
       // post (state) {
