@@ -2,9 +2,14 @@
   div
     div Here's the signup page.
     form
-      label Email
+      label Username
         input(
           type="text"
+          name="username"
+          v-model="username")
+      label Email
+        input(
+          type="email"
           name="email"
           v-model="email")
       label Password
@@ -32,6 +37,7 @@ export default {
   name: 'Signup',
   data () {
     return {
+      username: '',
       email: '',
       password: '',
       firstName: '',
@@ -40,15 +46,16 @@ export default {
   },
   methods: {
     submit: function (e) {
-      this.$store.dispatch('users/signup', {
+      this.$store.dispatch('currentUser/signup', {
+        username: this.username,
         email: this.email,
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName
       }).then(this.submitOnSuccess).catch(this.submitOnFail)
     },
-    submitOnSuccess: function () {
-      console.log('successful')
+    submitOnSuccess: function (data) {
+      this.$router.push(`/@${data.user.username}/`)
     },
     submitOnFail: function (err) {
       console.log(err)
