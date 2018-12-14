@@ -22,7 +22,7 @@
           v-model="isPrivate")
       button(
         type="submit"
-        @click.prevent="submit") Submit
+        @click.prevent="submit") Save
     div(
       class="editor__part"
       v-for="(part, index) in parts") here's a part

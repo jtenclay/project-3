@@ -26,6 +26,8 @@ module.exports = function (app) {
           attributes: ['id', 'firstName', 'lastName', 'username']
         }, {
           association: 'postSource'
+        }, {
+          association: 'parts'
         }]
       }).then(function (dbPost) {
         if (!dbPost) {
@@ -69,12 +71,35 @@ module.exports = function (app) {
 
   // PUT route for updating posts
   app.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-    db.Post.update(req.body, {
-      where: {
-        id: req.params.id
-      }
+    db.sequelize.transaction(function (t) {
+      return db.Post.update(req.body, {
+        where: {
+          id: req.params.id
+        },
+        transaction: t
+        // include: [{
+        //   association: 'postSource',
+        //   include: [db.Url]
+        // }]
+      }).then(function (dbPost) {
+        return db.PostPart.destroy({
+          where: {
+            PostId: req.body.id
+          },
+          transaction: t
+        }).then(function () {
+          return db.PostPart.bulkCreate(req.body.parts.map(part => ({
+            PostId: req.body.id,
+            ...part
+          })), {
+            transaction: t
+          })
+        })
+      })
     }).then(function (dbPost) {
       res.json(dbPost)
+    }).catch(function (err) {
+      res.status(422).json(err.errors ? err.errors[0].message : err)
     })
   })
 }
