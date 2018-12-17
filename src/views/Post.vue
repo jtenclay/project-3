@@ -16,6 +16,9 @@
         button(
           v-if="!post.publishedAt"
           @click="publish") Publish this post!
+      div(
+        v-for="part in post.parts"
+        :key="part.id") part with type {{ part.type }}
 </template>
 
 <script>
