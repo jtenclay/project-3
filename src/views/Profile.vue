@@ -1,12 +1,10 @@
 <template lang="pug">
   div
-    div Hey there, you're on the route for user {{ $route.params.user_handle }}
     div(v-if="userDoesNotExist") It looks like this user doesn't exist. 😅
     div(v-else-if="!user") Loading...
     //- else we have our user
     div(v-else)
-      h1 {{ user.firstName }}
-      p {{ user.id }}
+      h1 {{ user.username }}
     div(v-if="posts")
       div(v-for="post in posts")
         router-link(:to="post.url") {{post.id}} {{post.title}}

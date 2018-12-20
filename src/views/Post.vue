@@ -1,7 +1,5 @@
 <template lang="pug">
   div
-    div Hey there, you're on the route for user {{ $route.params.user_handle }}
-      | and the post {{ postId }}
     div(v-if="loading") Loading...
     div(v-else-if="postDoesNotExist") It looks like this post doesn't exist. 😅
     //- else we have our post
