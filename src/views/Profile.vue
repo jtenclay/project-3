@@ -8,12 +8,14 @@
       h1 {{ user.firstName }}
       p {{ user.id }}
     div(v-if="posts")
-      div(v-for="post in posts") {{post.id}} {{post.title}}
+      div(v-for="post in posts")
+        router-link(:to="makePermalink(post)") {{post.id}} {{post.title}}
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import usersApi from '@/api/users'
+import dashify from 'dashify'
 
 export default {
   name: 'Profile',
@@ -40,6 +42,10 @@ export default {
       const { Posts, ...rest } = data
       this.posts = Posts
       this.user = rest
+    },
+    makePermalink (post) {
+      const kebabTitle = post.title ? dashify(post.title) : ''
+      return `/@${this.$route.params.user_handle}/${kebabTitle ? kebabTitle + '-' : ''}${post.id}`
     },
     getProfileOnFail (err) {
       if (err.response.status === 404) {

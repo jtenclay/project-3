@@ -1,3 +1,5 @@
+const dashify = require('dashify')
+
 module.exports = function (sequelize, DataTypes) {
   var Post = sequelize.define('Post', {
     title: {
@@ -12,8 +14,23 @@ module.exports = function (sequelize, DataTypes) {
     isPrivate: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    url: {
+      type: DataTypes.VIRTUAL
     }
   })
+
+  async function formatUrl (post, options) {
+    const kebabTitle = post.title ? dashify(post.title) : ''
+    return post.getAuthor().then((author) => {
+      post.url = `/@${author.username}/${kebabTitle ? kebabTitle + '-' : ''}${post.id}`
+      return post
+    })
+  }
+
+  Post.hook('afterFind', formatUrl)
+  Post.hook('afterUpdate', formatUrl)
+  Post.hook('afterCreate', formatUrl)
 
   Post.associate = function (models) {
     Post.belongsTo(models.User, {

@@ -37,7 +37,7 @@ module.exports = function (app) {
         res.json(dbPost)
       }).catch(function (err) {
         console.log(err)
-        res.json(err.errors[0].message)
+        res.status(422).json(err.errors ? err.errors[0].message : err)
       })
     })(req, res, next)
   })
@@ -54,6 +54,7 @@ module.exports = function (app) {
     }).then(function (dbPost) {
       res.json(dbPost)
     }).catch(function (err) {
+      console.log(err)
       res.status(422).json(err.errors ? err.errors[0].message : err)
     })
   })

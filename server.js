@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(express.static('dist'))
 app.use(passport.initialize())
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: ['localhost:8080', 'http://localhost:8080'],
   optionsSuccessStatus: 200
 }))
 

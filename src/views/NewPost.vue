@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     newPostOnSuccess ({ data }) {
-      this.$router.replace(`/@${this.username}/${data.id}/edit`)
+      this.$router.replace(data.url)
     },
     newPostOnFail (err) {
       if (err.response.status === 401) {

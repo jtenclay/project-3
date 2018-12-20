@@ -2,15 +2,15 @@
   #nav
     router-link(to="/") Home
     | #{' | '}
-    router-link(to="/@hello") Profile
-    | #{' | '}
-    router-link(to="/@hello/post-1") Post
+    router-link(:to="'/@' + username") Profile
     | #{' | '}
     router-link(to="/new") New post
     | #{' | '}
-    button(
-      v-if="loggedIn"
-      @click="logout") Log Out
+    span(v-if="loggedIn")
+      | You're the user {{ username }}&nbsp;
+      button(
+        v-if="loggedIn"
+        @click="logout") Log Out
     router-link(
       v-else
       to="/login") Log In
@@ -22,7 +22,8 @@ import { mapState } from 'vuex'
 export default {
   name: 'Nav',
   computed: mapState({
-    loggedIn: state => !!state.currentUser.token
+    loggedIn: state => !!state.currentUser.token,
+    username: state => state.currentUser.username
   }),
   methods: {
     logout: function () {

@@ -79,7 +79,7 @@ export default {
       }).then(this.submitOnSuccess).catch(this.submitOnFail)
     },
     submitOnSuccess: function () {
-      console.log('successful')
+      this.$router.push(this.post.url)
     },
     submitOnFail: function (err) {
       console.log(err)
