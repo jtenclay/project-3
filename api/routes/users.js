@@ -23,6 +23,8 @@ module.exports = function (app) {
           return res.sendStatus(404)
         }
         const filteredPosts = dbUser.Posts.filter(post => userCanView(user, post))
+          .map(post => post.formatUrl(dbUser))
+
         res.json({
           Posts: filteredPosts,
           id: dbUser.id,

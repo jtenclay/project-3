@@ -43,14 +43,12 @@ export default {
   },
   methods: {
     newPostOnSuccess (post) {
-      console.log('successful', post)
-      this.$router.replace(`/@${this.$route.params.user_handle}/edit/${post.id}`)
+      this.$router.replace(`${post.url}/edit`)
     },
     newPostOnFail (err) {
       console.log(err)
     },
     getPostOnSuccess ({ data }) {
-      console.log('hello')
       console.log(data)
       this.post = data
     },

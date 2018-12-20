@@ -23,7 +23,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import dashify from 'dashify'
 import postsApi from '@/api/posts'
 
 export default {
@@ -75,8 +74,7 @@ export default {
       // Create human-readable url
       console.log(data)
       this.post = data
-      const kebabTitle = data.title ? dashify(data.title) : ''
-      this.$router.replace(`/@${this.$route.params.user_handle}/${kebabTitle ? kebabTitle + '-' : ''}${this.postId}`)
+      this.$router.replace(data.url)
       this.loading = false
     },
     getPostOnFail (err) {

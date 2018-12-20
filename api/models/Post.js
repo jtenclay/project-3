@@ -32,6 +32,12 @@ module.exports = function (sequelize, DataTypes) {
   Post.hook('afterUpdate', formatUrl)
   Post.hook('afterCreate', formatUrl)
 
+  Post.prototype.formatUrl = function (user) {
+    const kebabTitle = this.title ? dashify(this.title) : ''
+    this.url = `/@${user.username}/${kebabTitle ? kebabTitle + '-' : ''}${this.id}`
+    return this
+  }
+
   Post.associate = function (models) {
     Post.belongsTo(models.User, {
       as: 'author',
