@@ -4,4 +4,5 @@ module.exports = function (app) {
   require('./auth')(app)
   require('./tags')(app)
   require('./urls')(app)
+  require('./sources')(app)
 }

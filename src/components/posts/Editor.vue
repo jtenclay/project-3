@@ -10,7 +10,8 @@
         input(
           type="text"
           name="source"
-          v-model="source")
+          v-model="source"
+          @input="checkSource")
       label Description
         textarea(
           name="description"
@@ -36,6 +37,7 @@
 
 <script>
 import postsApi from '@/api/posts'
+import sourcesApi from '@/api/sources'
 import EditorImage from './EditorImage.vue'
 
 export default {
@@ -55,7 +57,8 @@ export default {
       description: this.post.description || '',
       isPrivate: this.post.isPrivate || false,
       source: this.post.source || '',
-      parts: this.post.parts || []
+      parts: this.post.parts || [],
+      checkSourceTimeout: null
     }
   },
   methods: {
@@ -83,6 +86,17 @@ export default {
     },
     submitOnFail: function (err) {
       console.log(err)
+    },
+    checkSource: function () {
+      // Throttle API calls
+      clearTimeout(this.checkSourceTimeout)
+      if (this.source) {
+        this.checkSourceTimeout = setTimeout(() => {
+          sourcesApi.checkSource(this.source)
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err))
+        }, 2000)
+      }
     }
   }
 }

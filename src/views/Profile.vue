@@ -30,18 +30,29 @@ export default {
     }
   }),
   created () {
-    usersApi.getProfile(this.$route.params.user_handle)
-      .then(this.getProfileOnSuccess)
-      .catch(this.getProfileOnFail)
+    this.getProfile(this.$route.params.user_handle)
+  },
+  beforeRouteUpdate (to, from, next) {
+    // Get our new user and then navigate
+    this.getProfile(to.params.user_handle)
+    next()
   },
   methods: {
+    getProfile (userHandle) {
+      usersApi.getProfile(userHandle)
+        .then(this.getProfileOnSuccess)
+        .catch(this.getProfileOnFail)
+    },
     getProfileOnSuccess ({ data }) {
+      this.userDoesNotExist = false
       const { Posts, ...rest } = data
       this.posts = Posts
       this.user = rest
     },
     getProfileOnFail (err) {
       if (err.response.status === 404) {
+        this.posts = []
+        this.user = null
         this.userDoesNotExist = true
       }
     }
