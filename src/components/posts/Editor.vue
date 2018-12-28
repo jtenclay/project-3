@@ -12,7 +12,7 @@
           name="source"
           v-model="source"
           @input="checkSource")
-      div(v-if="previewTitle") {{ previewTitle }}
+      span(v-if="previewTitle") {{ previewTitle }}
       label Description
         textarea(
           name="description"
@@ -57,7 +57,9 @@ export default {
       title: this.post.title || '',
       description: this.post.description || '',
       isPrivate: this.post.isPrivate || false,
-      source: this.post.source || '',
+      source: this.post.postSource && this.post.postSource.Url
+        ? this.post.postSource.Url.url
+        : '',
       parts: this.post.parts || [],
       checkSourceTimeout: null,
       previewTitle: ''
@@ -98,14 +100,14 @@ export default {
             .then(this.checkSourceOnSuccess)
             .catch(this.checkSourceOnFail)
         }, 1000)
+      } else {
+        this.previewTitle = ''
       }
     },
     checkSourceOnSuccess: function ({ data }) {
-      console.log(data)
       this.previewTitle = data.ogTitle
     },
-    checkSourceOnFail: function (err) {
-      console.log(err)
+    checkSourceOnFail: function () {
       this.previewTitle = ''
     }
   }

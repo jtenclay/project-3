@@ -25,7 +25,11 @@ module.exports = function (app) {
           association: 'author',
           attributes: ['id', 'firstName', 'lastName', 'username']
         }, {
-          association: 'postSource'
+          association: 'postSource',
+          include: [{
+            model: db.Url,
+            attributes: ['url', 'title']
+          }]
         }, {
           association: 'parts'
         }]
@@ -72,34 +76,85 @@ module.exports = function (app) {
 
   // PUT route for updating posts
   app.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+    // db.Url.find({
+    //   where: {
+    //     url: req.body.source
+    //   }
+    // }).then(dbUrl => {
+    //   // Our url exists already
+
+    // }).catch(() => {
+
+    // })
+
     db.sequelize.transaction(function (t) {
-      return db.Post.update(req.body, {
-        where: {
-          id: req.params.id
-        },
-        transaction: t
-        // include: [{
-        //   association: 'postSource',
-        //   include: [db.Url]
-        // }]
-      }).then(function (dbPost) {
-        return db.PostPart.destroy({
+      let urlPromise
+      // First manage our post's source
+      if (req.body.source) {
+        urlPromise = db.Url.findOrCreate({
           where: {
-            PostId: req.body.id
+            url: req.body.source
           },
           transaction: t
-        }).then(function () {
-          return db.PostPart.bulkCreate(req.body.parts.map(part => ({
-            PostId: req.body.id,
-            ...part
-          })), {
+        })
+      } else {
+        urlPromise = Promise.resolve()
+      }
+      return urlPromise.then(function ([dbUrl, wasCreated]) {
+        console.log('main', dbUrl, 'datavalues', dbUrl.dataValues, 'id', dbUrl.id)
+        let sourcePromise
+        if (dbUrl) {
+          sourcePromise = db.Source.findOrCreate({
+            where: {
+              UrlId: dbUrl.id
+            },
             transaction: t
+          })
+        } else {
+          sourcePromise = Promise.resolve()
+        }
+        return sourcePromise.then(function ([dbSource, wasCreated]) {
+          // Include our post source if we have it
+          console.log(dbSource)
+          const values = req.body
+          if (dbSource) {
+            values.postSourceId = dbSource.id
+          }
+          // Update our post
+          return db.Post.update(values, {
+            where: {
+              id: req.params.id
+            },
+            transaction: t
+            // include: [{
+            //   model: db.Url,
+            //   through: {
+            //     include: [db.Source]
+            //   }
+            // }]
+          }).then(function (dbPost) {
+            // Destroy the old post parts
+            return db.PostPart.destroy({
+              where: {
+                PostId: req.body.id
+              },
+              transaction: t
+            }).then(function () {
+              // Create our new post parts
+              return db.PostPart.bulkCreate(req.body.parts.map(part => ({
+                PostId: req.body.id,
+                ...part
+              })), {
+                transaction: t
+              })
+            })
           })
         })
       })
     }).then(function (dbPost) {
       res.json(dbPost)
     }).catch(function (err) {
+      console.log(err)
       res.status(422).json(err.errors ? err.errors[0].message : err)
     })
   })

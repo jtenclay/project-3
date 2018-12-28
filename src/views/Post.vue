@@ -4,6 +4,16 @@
     div(v-else-if="postDoesNotExist") It looks like this post doesn't exist. 😅
     //- else we have our post
     div(v-else)
+      div(v-if="post.postSource && post.postSource.Url")
+        | From:&nbsp;
+        a(
+          :href="post.postSource.Url.url"
+          target="_blank"
+          rel="noopener noreferrer")
+          | {{ post.postSource.Url.title || post.postSource.Url.url }}
+        | &nbsp;
+        router-link(
+          :to="sourceDetailUrl") See other posts with this source
       h1 {{ post.title }}
       p {{ post.description }}
       div(v-if="post.publishedAt") Published at {{ formattedDate }}
@@ -35,6 +45,9 @@ export default {
   computed: {
     editUrl: function () {
       return `/@${this.$route.params.user_handle}/${this.postId}/edit`
+    },
+    sourceDetailUrl: function () {
+      return `/sources/${this.post.postSourceId}`
     },
     postId: function () {
       // Grab final segment of the url
