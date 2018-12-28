@@ -5,7 +5,7 @@ var cors = require('cors')
 require('dotenv').config()
 
 var app = express()
-var PORT = process.env.PORT || 8000
+var PORT = process.env.PORT || 8001
 var db = require('./api/models')
 
 app.use(bodyParser.urlencoded({ extended: true }))
