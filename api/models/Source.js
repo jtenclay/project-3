@@ -5,6 +5,10 @@ module.exports = function (sequelize, DataTypes) {
     Source.belongsTo(models.Post, {
       constraints: false
     })
+    Source.hasMany(models.Post, {
+      foreignKey: 'postSourceId',
+      as: 'posts'
+    })
     Source.belongsTo(models.Url, {})
   }
 

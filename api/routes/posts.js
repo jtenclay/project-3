@@ -98,10 +98,9 @@ module.exports = function (app) {
           transaction: t
         })
       } else {
-        urlPromise = Promise.resolve()
+        urlPromise = Promise.resolve([])
       }
       return urlPromise.then(function ([dbUrl, wasCreated]) {
-        console.log('main', dbUrl, 'datavalues', dbUrl.dataValues, 'id', dbUrl.id)
         let sourcePromise
         if (dbUrl) {
           sourcePromise = db.Source.findOrCreate({
@@ -111,7 +110,7 @@ module.exports = function (app) {
             transaction: t
           })
         } else {
-          sourcePromise = Promise.resolve()
+          sourcePromise = Promise.resolve([])
         }
         return sourcePromise.then(function ([dbSource, wasCreated]) {
           // Include our post source if we have it

@@ -7,6 +7,7 @@ import Edit from './views/Edit.vue'
 import NewPost from './views/NewPost.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
+import Source from './views/Source.vue'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/sign-up',
       name: 'Signup',
       component: Signup
+    },
+    {
+      path: '/source/:source_id',
+      name: 'Source',
+      component: Source
     }
   ]
 })

@@ -47,7 +47,7 @@ export default {
       return `/@${this.$route.params.user_handle}/${this.postId}/edit`
     },
     sourceDetailUrl: function () {
-      return `/sources/${this.post.postSourceId}`
+      return `/source/${this.post.postSourceId}`
     },
     postId: function () {
       // Grab final segment of the url

@@ -2,18 +2,9 @@ import axios from './axios'
 
 export default {
   checkSource (source) {
-    return axios.get(`sources/${encodeURIComponent(source)}`)
+    return axios.get(`sources/check/${encodeURIComponent(source)}`)
   },
-  getPostsByUser (username) {
-    return axios.get(`posts?user=${username}`)
-  },
-  getPost (id) {
-    return axios.get(`posts/${id}`)
-  },
-  newPost () {
-    return axios.post('posts')
-  },
-  updatePost (id, data) {
-    return axios.put(`posts/${id}`, data)
+  getSource (id) {
+    return axios.get(`sources/${id}`)
   }
 }
