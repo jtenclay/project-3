@@ -38,8 +38,10 @@
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-standard": "^3.0.4",
+    "bourbon-neat": "^3.0.0",
     "node-sass": "^4.9.0",
     "nodemon": "^1.18.8",
+    "normalize.css": "^8.0.1",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.17"
   }

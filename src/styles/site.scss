@@ -1,0 +1,6 @@
+// Note: don't set any actual CSS in these files! Only expose mixins and variables
+// or the declarations will be included more than once in the final build
+
+@import '~neat/_neat.scss';
+@import './layout';
+@import './typography';

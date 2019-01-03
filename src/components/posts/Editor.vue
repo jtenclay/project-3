@@ -28,9 +28,13 @@
     div(
       class="editor__part"
       v-for="(part, index) in parts") here's a part
+      input(
+        type="text"
+        v-if="part.type !== 'image'"
+        v-model="part.text")
       button(class="editor__x" @click="removePart(index)") X
       EditorImage(
-        v-if="part.type == 'image'"
+        v-if="part.type === 'image'"
         :imageUrl="part.imageUrl")
     button(@click="addPart('heading')") Add heading
     button(@click="addPart('image')") Add image

@@ -7,7 +7,7 @@
       h1 {{ user.username }}
     div(v-if="posts")
       div(v-for="post in posts")
-        router-link(:to="post.url") {{post.id}} {{post.title}}
+        router-link(:to="post.url") {{ post.title || 'Untitled' }} {{ post.publishedAt || '(draft)' }}
 </template>
 
 <script>

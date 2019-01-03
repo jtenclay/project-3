@@ -5,7 +5,7 @@
     //- else we have our source
     div(v-else)
       div(v-for="post in source.posts")
-        router-link(:to="post.url") {{post.id}} {{post.title}}
+        router-link(:to="post.url") {{ post.title || 'Untitled' }}
 </template>
 
 <script>

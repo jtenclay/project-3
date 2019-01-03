@@ -11,7 +11,7 @@
           target="_blank"
           rel="noopener noreferrer")
           | {{ post.postSource.Url.title || post.postSource.Url.url }}
-        | &nbsp;
+        br
         router-link(
           :to="sourceDetailUrl") See other posts with this source
       h1 {{ post.title }}
@@ -27,6 +27,11 @@
       div(
         v-for="part in post.parts"
         :key="part.id") part with type {{ part.type }}
+        h2(
+          v-if="part.type !== 'image'") {{ part.text }}
+        img(
+          v-if="part.type === 'image'"
+          :src="part.imageUrl")
 </template>
 
 <script>
@@ -75,12 +80,21 @@ export default {
     })
   },
   created () {
-    postsApi.getPost(this.postId)
-      .then(this.getPostOnSuccess)
-      .catch(this.getPostOnFail)
+    this.getPost(this.postId)
     // this.$store.dispatch('posts/getPost', this.postId).then(this.getPostOnSuccess).catch(this.getPostOnFail)
   },
+  beforeRouteUpdate (to, from, next) {
+    // Refresh our post
+    const arr = to.params.post_slug.split('-')
+    this.getPost(arr[arr.length - 1])
+    next()
+  },
   methods: {
+    getPost (id) {
+      postsApi.getPost(id)
+        .then(this.getPostOnSuccess)
+        .catch(this.getPostOnFail)
+    },
     getPostOnSuccess ({ data }) {
       // Create human-readable url
       console.log(data)

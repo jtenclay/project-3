@@ -7,7 +7,7 @@
     router-link(to="/new") New post
     | #{' | '}
     span(v-if="loggedIn")
-      | You're the user {{ username }}&nbsp;
+      | You're the user @{{ username }}&nbsp;
       button(
         v-if="loggedIn"
         @click="logout") Log Out
@@ -18,6 +18,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import '@/styles/site.scss'
 
 export default {
   name: 'Nav',
@@ -36,6 +37,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+// @import '~styles/site.scss';
+
+#nav {
+  // @include grid-column(7);
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
 h3 {
   margin: 40px 0 0;
 }
