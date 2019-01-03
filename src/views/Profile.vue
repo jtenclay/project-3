@@ -1,12 +1,12 @@
 <template lang="pug">
-  div
+  .profile
     div(v-if="userDoesNotExist") It looks like this user doesn't exist. 😅
     div(v-else-if="!user") Loading...
     //- else we have our user
-    div(v-else)
+    .profile__masthead(v-else)
       h1 {{ user.username }}
     div(v-if="posts")
-      div(v-for="post in posts")
+      .profile__post(v-for="post in posts")
         router-link(:to="post.url") {{ post.title || 'Untitled' }} {{ post.publishedAt || '(draft)' }}
 </template>
 
@@ -59,3 +59,18 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '~styles/site.scss';
+
+.profile {
+  &__masthead {
+    @include grid-column(6);
+    @include grid-push(1);
+  }
+  &__post {
+    @include grid-column(4);
+    @include grid-push(2);
+  }
+}
+</style>

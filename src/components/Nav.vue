@@ -37,11 +37,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-// @import '~styles/site.scss';
+@import '~styles/site.scss';
 
 #nav {
-  // @include grid-column(7);
-  padding: 30px;
+  @include grid-column(7);
+  box-sizing: border-box;
+  padding: 30px 0;
+  text-align: right;
   a {
     font-weight: bold;
     color: #2c3e50;
